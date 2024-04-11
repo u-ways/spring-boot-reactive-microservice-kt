@@ -1,0 +1,74 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: katanox_test_postgresdb
+    environment:
+      - POSTGRES_USER=katanox-user
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=katanox_test
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+    healthcheck:
+      interval: 2s
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB -h localhost" ]
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: katanox_test_rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - backend
+    healthcheck:
+      interval: 2s
+      test: ["CMD-SHELL", "rabbitmq-diagnostics -q check_running && rabbitmq-diagnostics -q check_local_alarms"]
+
+  katanox:
+    image: modern-reactive-spring-backend-kotlin:DEV-SNAPSHOT
+    container_name: katanox_test
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_FLYWAY_URL=jdbc:postgresql://postgres:5432/katanox_test
+      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/katanox_test
+      - SPRING_R2DBC_USERNAME=katanox-user
+      - SPRING_R2DBC_PASSWORD=123456
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+      - SPRING_RABBITMQ_USERNAME=guest
+      - SPRING_RABBITMQ_PASSWORD=guest
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      katanox-healthcheck-sidecar:
+        condition: service_started
+
+  # Our "Katanox" service is using a distroless image,
+  # So we need to add a sidecar container to perform "health checks" in this environment.
+  katanox-healthcheck-sidecar:
+    image: curlimages/curl:latest
+    container_name: katanox_test_healthcheck_sidecar
+    command: [ "sh", "-c", "tail -f /dev/null" ] # Keep the container running
+    networks:
+      - backend
+    healthcheck:
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      test: ["CMD-SHELL", "curl -sf http://katanox:8080/actuator/health/readinessState | grep -q UP"]
+
+networks:
+  backend:
+    driver: bridge

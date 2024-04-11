@@ -1,0 +1,32 @@
+sequenceDiagram
+    actor User
+    participant AS as Availability Service
+    participant DB as Database
+
+    Note left of User: Hotel ID: 1<br>Check-in: 2024-04-01<br>Check-out: 2042-04-03
+    User->>+AS: GET /availability (HTTPs)
+    activate User
+    AS-->>AS: Validate Input
+    alt Bad Request
+        AS->>User: 400
+    else
+        AS-->>DB: Read Hotel Details
+        alt Hotel Not Found
+            AS->>User: 404
+        else
+            AS-->>DB: Read Rooms Details
+            alt No Rooms Registered
+                note over User,DB: We treat hotel requests with no rooms as "conflict of state" rather than "not found"...<br/>I.e. We found the selected hotel, however it's current state is conflicting to fulfill the requet.
+                AS->>User: 409
+            else
+                AS-->>DB: Read Rooms Price Availability
+                alt No Price Availability
+                    AS->>User: 409
+                else
+                    AS-->>AS: Calculate Price
+                end
+                AS->>User: 200 (Availability Response)
+            end
+        end
+    end
+    deactivate User

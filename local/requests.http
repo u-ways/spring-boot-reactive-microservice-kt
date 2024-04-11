@@ -1,0 +1,38 @@
+# This is a convenient file leveraging the Open HTTP Requests Collection format to provide a quick way to test the API.
+# See: https://www.jetbrains.com/help/idea/http-client-in-product-code-editor.html
+###
+GET http://localhost:8080/availability
+Content-Type: application/json
+Accept: application/json
+
+{
+  "checkIn": "2022-04-01",
+  "checkOut": "2022-04-03",
+  "hotelId": 1
+}
+
+###
+POST http://localhost:8080/booking
+Content-Type: application/json
+Accept: application/json
+
+{
+  "hotelId": 1,
+  "roomId": 1,
+  "checkIn": "2022-04-01",
+  "checkOut": "2022-04-03",
+  "price": 267.5,
+  "currency": "EUR",
+  "guest": {
+    "name": "U-ways",
+    "surname": "E.",
+    "birthdate": "1990-01-01"
+  },
+    "payment": {
+        "card_holder": "U-ways E.",
+        "card_number": "1234567890123456",
+        "cvv": "123",
+        "expiry_month": "01",
+        "expiry_year": "2023"
+    }
+}

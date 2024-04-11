@@ -1,0 +1,53 @@
+name: CI
+
+on: [
+  workflow_call,
+  workflow_dispatch
+]
+
+permissions:
+  contents: read
+  actions: read
+  # You will need to enable this via the GitHub UI:
+  # https://github.com/u-ways/katanox-backend-assessment/settings/actions
+  checks: write
+
+jobs:
+  Test-Runner:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: 'Checkout to current branch'
+        uses: actions/checkout@v4
+      - name: 'Set up JDK 21'
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: gradle
+      - name: 'tests (unit)'
+        run: make test-app
+      - name: 'tests (integration)'
+        run: make test-integration-app
+      - name: 'Uploading test artifacts'
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: |
+            ./build/test-results/test/*.xml
+            ./build/reports
+
+  Test-Reporter:
+    needs: Test-Runner
+    runs-on: ubuntu-22.04
+    steps:
+      - name: 'Checkout to current branch'
+        uses: actions/checkout@v4
+      - name: 'Downloading all artifacts'
+        uses: actions/download-artifact@v4
+      - name: 'Generating test report for Github actions'
+        uses: dorny/test-reporter@v1.9.0
+        with:
+          name: 'Test Report: JUnit 5'
+          path: ./test-artifacts/test-results/test/*.xml
+          reporter: java-junit
