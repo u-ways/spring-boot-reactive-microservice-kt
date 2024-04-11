@@ -1,6 +1,7 @@
 # Modern Reactive Spring Backend (Kt)
 
 [![CICD](https://github.com/u-ways/modern-reactive-spring-backend-kotlin/actions/workflows/CICD.yml/badge.svg)](https://github.com/u-ways/modern-reactive-spring-backend-kotlin/actions/workflows/CICD.yml)
+[![Code Climate](https://codeclimate.com/github/u-ways/modern-reactive-spring-backend-kotlin.png)](https://codeclimate.com/github/u-ways/modern-reactive-spring-backend-kotlin)
 [![GitHub License](https://badgen.net/badge/license/BSD-3-Clause/blue)](https://github.com/u-ways/modern-reactive-spring-backend-kotlin/blob/master/LICENSE)
 
 ## Background
