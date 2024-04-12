@@ -3,6 +3,7 @@
 [![CICD](https://github.com/u-ways/modern-reactive-spring-backend-kotlin/actions/workflows/CICD.yml/badge.svg)](https://github.com/u-ways/modern-reactive-spring-backend-kotlin/actions/workflows/CICD.yml)
 [![Code Climate](https://codeclimate.com/github/u-ways/modern-reactive-spring-backend-kotlin.png)](https://codeclimate.com/github/u-ways/modern-reactive-spring-backend-kotlin)
 [![GitHub License](https://badgen.net/badge/license/BSD-3-Clause/blue)](https://github.com/u-ways/modern-reactive-spring-backend-kotlin/blob/master/LICENSE)
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
 ## Background
 
@@ -114,9 +115,9 @@ in the [AvailabilityService](./src/main/kotlin/com/katanox/api/domain/availabili
 
 ![Availability Service Sequence Diagram](./docs/availability-service-sequence-diagram.png)
 
-The implementation are driven via the [AvailabilityEndpointIT](./src/test/kotlin/com/katanox/api/acceptance/AvailabilityEndpointIT.kt) acceptance tests.
+The implementation is driven via the [AvailabilityEndpointIT](./src/test/kotlin/com/katanox/api/acceptance/AvailabilityEndpointIT.kt) acceptance tests.
 
-Likewise, the booking service implementation are driven via the [BookingEndpointIT](./src/test/kotlin/com/katanox/api/acceptance/BookingEndpointIT.kt) acceptance tests. In which it 
+Likewise, the booking service implementation is driven via the [BookingEndpointIT](./src/test/kotlin/com/katanox/api/acceptance/BookingEndpointIT.kt) acceptance tests. In which it 
 relies on the availability service to check if the requested room is "really" available for the given dates. Therefore,
 we enabled a caching layer to reduce the number of calls to the availability repository. You can see the implementation 
 details in the [BookingService](./src/main/kotlin/com/katanox/api/domain/booking/BookingService.kt) class.
