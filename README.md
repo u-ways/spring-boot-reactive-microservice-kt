@@ -43,7 +43,7 @@ is well-documented and provides a good use case for building a reactive API.
 > publishers, voice assistants to messaging apps.
 > 
 > - Katanox is not a Channel Manager - it connects with different PMSs without the need to map rooms for new partners.
-> - oKatanox is not a GDS - direct deals are easily managed through a new technology that keeps your content updated.
+> - Katanox is not a GDS - direct deals are easily managed through a new technology that keeps your content updated.
 > - Katanox is not an OTA - it is not even a channel. It is a platform where you have control over your partnerships.
 > 
 > We want to drive innovation for Buyers and Suppliers and ultimately help the growth of the travel industry.
