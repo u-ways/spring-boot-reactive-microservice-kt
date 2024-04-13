@@ -5,6 +5,20 @@
 [![GitHub License](https://badgen.net/badge/license/BSD-3-Clause/blue)](https://github.com/u-ways/modern-reactive-spring-backend-kotlin/blob/master/LICENSE)
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
+- [Background](#background)
+- [Katanox API](#katanox-api)
+- [Vert.x vs Spring WebFlux](#vertx-vs-spring-webflux)
+  * [The Streams Specification Vs The Reactive Manifesto](#the-streams-specification-vs-the-reactive-manifesto)
+  * [Personal Verdict](#personal-verdict)
+- [Implementation Details](#implementation-details)
+  * [Solution Architecture](#solution-architecture)
+  * [Other Practices and Technical Decisions](#other-practices-and-technical-decisions)
+  * [Algorithmic Solution](#algorithmic-solution)
+- [Usage](#usage)
+  * [Prerequisites](#prerequisites)
+  * [Running the Application](#running-the-application)
+  * [Contributing](#contributing)
+
 ## Background
 
 Our older monolithic applications were built using an older generation of Spring Boot with vertical scaling architecture. 
