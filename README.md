@@ -104,6 +104,12 @@ Of course, this is a simplified version of the architecture, in a real-world sce
 complex provisioning logic involved in the booking process. However, for the sake of this project, I decided to keep it 
 simple.
 
+It's also worth mentioning the "Availability & Pre-Booking Service" shouldn't be communicating with the Database directly,
+as it would complicate data synchronisation with the "Reservation Service". Instead, it would be better to have a repository
+service that would handle the database operations. This would allow us to have a more decoupled architecture and a more
+scalable solution via an intermediary API layer which would mediate database operations. However, I wanted to use the 
+R2DBC in this POC, and so I've overlooked this architectural decision.
+
 ### Other Practices and Technical Decisions
 
 I have decided to follow DDD (Domain-Driven Design) principles for this project, and drive the implementation via ATDD
