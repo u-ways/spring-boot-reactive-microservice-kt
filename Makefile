@@ -12,7 +12,7 @@
 
 VERSION?=DEV-SNAPSHOT
 
-APP_NAME=modern-reactive-spring-backend-kotlin
+APP_NAME=spring-boot-reactive-microservice-kt
 APP_JAR_LOCATION=./build/libs/$(APP_NAME)-$(VERSION).jar
 APP_PORT?=8080
 

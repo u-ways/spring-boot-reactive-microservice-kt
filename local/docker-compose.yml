@@ -30,7 +30,7 @@ services:
       test: ["CMD-SHELL", "rabbitmq-diagnostics -q check_running && rabbitmq-diagnostics -q check_local_alarms"]
 
   katanox:
-    image: modern-reactive-spring-backend-kotlin:DEV-SNAPSHOT
+    image: spring-boot-reactive-microservice-kt:DEV-SNAPSHOT
     container_name: katanox_test
     environment:
       - SERVER_PORT=8080

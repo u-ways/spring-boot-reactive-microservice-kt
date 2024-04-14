@@ -1,4 +1,4 @@
-rootProject.name = "modern-reactive-spring-backend-kotlin"
+rootProject.name = "spring-boot-reactive-microservice-kt"
 
 dependencyResolutionManagement {
     versionCatalogs {
