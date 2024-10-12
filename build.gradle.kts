@@ -15,6 +15,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.spring)
     alias(libs.plugins.flyway)
     alias(libs.plugins.jooq.code.generation)
+    alias(libs.plugins.pinterest.ktlint)
 }
 
 group = "com.katanox.api"

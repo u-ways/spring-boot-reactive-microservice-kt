@@ -1,9 +1,10 @@
 ################################################################################################
 # Katanox Makefile
 #
-# This Makefile is split into three sections:
+# This Makefile is split into the following sections:
 #   - Application: for building, testing, and publishing the project.
 #   - Docker Image: for building, testing, and publishing the Docker image that is used to run the project.
+#   - Development: for formatting, linting, and other development tasks.
 #   - Deployments: for deploying the project and its infrastructure.
 #
 # We write our rule names in the following format: [verb]-[noun]-[noun], e.g. "build-jars".
@@ -40,6 +41,29 @@ generate-jooq: deploy-app-infrastructure-database
 	@echo "******** Generating Jooq classes... ********"
 	./gradlew clean generateJooq --info
 	$(call clean-app-infrastructure)
+
+# Development ##################################################################################
+
+check-code:
+	@echo "******** Checking the code format... ********"
+	./gradlew ktlintCheck --info
+
+format-code:
+	@echo "******** Formatting the code... ********"
+	./gradlew ktlintFormat --info
+
+lint-code:
+	@echo "******** Linting the code... ********"
+	./gradlew ktlintCheck
+
+setup-ktlint-to-project:
+	@echo "******** Setting up ktlint to the project (IntelliJ IDEA)... ********"
+	./gradlew ktlintApplyToIdea
+
+setup-code-quality-pre-commit-hooks:
+	@echo "******** Setting up code quality pre-commit hook... ********"
+	./gradlew addKtlintCheckGitPreCommitHook
+	./gradlew addSpotlessApplyGitPreCommitHook
 
 # Docker Image ##################################################################################
 

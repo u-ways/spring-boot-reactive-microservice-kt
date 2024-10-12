@@ -25,6 +25,7 @@ dependencyResolutionManagement {
             val springDependencyManagementVersion = version("springDependencyManagement", "1.1.4")
             val springRestDocsWebTestClientVersion = version("springRestDocsWebTestClient", "3.0.1")
             val testContainersVersion = version("testContainers", "1.19.7")
+            val ktlintVersion = version("ktlint", "12.1.1")
 
             plugin("flyway", "org.flywaydb.flyway").versionRef(flywayVersion)
             plugin("jetbrains-kotlin-jvm", "org.jetbrains.kotlin.jvm").versionRef(kotlinVersion)
@@ -32,6 +33,7 @@ dependencyResolutionManagement {
             plugin("jooq-code-generation", "nu.studer.jooq").versionRef(jooqCodeGenerationVersion)
             plugin("spring-boot", "org.springframework.boot").versionRef(springBootVersion)
             plugin("spring-dependency-management", "io.spring.dependency-management").versionRef(springDependencyManagementVersion)
+            plugin("pinterest.ktlint", "org.jlleitschuh.gradle.ktlint").versionRef(ktlintVersion)
 
             library("flyway-core", "org.flywaydb", "flyway-core").versionRef(flywayVersion)
             library("flyway-postgresql", "org.flywaydb", "flyway-database-postgresql").versionRef(flywayVersion)
