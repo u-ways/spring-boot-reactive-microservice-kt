@@ -27,6 +27,7 @@ jobs:
       - name: 'run lint formatter'
         run: make format-code   
       - name: 'run lint checks'
+        if: always()
         run: make lint-code
 
   Test-Runner:
