@@ -24,20 +24,13 @@ jobs:
           java-version: 21
           distribution: temurin
           cache: gradle
-      - name: 'run lint formatter to fix issues'
-        run: make format-code   
 
-      - name: add changed files 
-        if: always()
-        run: |
-          git add . 
-          git commit -m "reformat: code"   
       - name: 'run lint checks'
-        if: always()
         run: make lint-code
 
   Test-Runner:
     runs-on: ubuntu-22.04
+    needs: [Lint-Runner]
     steps:
       - name: 'Checkout to current branch'
         uses: actions/checkout@v4
