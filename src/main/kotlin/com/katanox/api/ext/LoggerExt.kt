@@ -69,7 +69,7 @@ internal fun <T> Mono<T>.auditRequest(
             "%s - - [%s] \"%s %s HTTP/1.1\" %s - \"%s\"",
             request.remoteAddress?.address?.hostAddress ?: "-",
             Instant.now(clock),
-                request.method,
+            request.method,
             request.uri.path,
             response.statusCode?.value() ?: "000",
             request.headers.getFirst(USER_AGENT) ?: "Unknown",
