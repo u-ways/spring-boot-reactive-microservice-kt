@@ -28,6 +28,7 @@ jobs:
         run: make format-code   
 
       - name: add changed files 
+        if: always()
         run: |
           git add . 
           git commit -m "reformat: code"   
