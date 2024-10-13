@@ -24,6 +24,8 @@ jobs:
           java-version: 21
           distribution: temurin
           cache: gradle
+      - name: 'run lint formatter'
+        run: make format-code   
       - name: 'run lint checks'
         run: make lint-code
 
