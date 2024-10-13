@@ -18,8 +18,7 @@ data class BookingRequest(
         val surname: String,
         val birthdate: LocalDate,
     ) {
-        override fun toString(): String =
-            "Guest(name='$OBSCURED', surname='$OBSCURED', birthdate=$OBSCURED)"
+        override fun toString(): String = "Guest(name='$OBSCURED', surname='$OBSCURED', birthdate=$OBSCURED)"
     }
 
     data class Payment(

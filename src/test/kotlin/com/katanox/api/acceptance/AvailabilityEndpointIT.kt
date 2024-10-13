@@ -16,7 +16,6 @@ import com.katanox.api.support.domain.matcher.SearchResponseMatcher.Companion.se
 import io.restassured.RestAssured.baseURI
 import io.restassured.RestAssured.port
 import io.restassured.http.ContentType.JSON
-import java.time.LocalDate
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
@@ -27,10 +26,13 @@ import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.CONFLICT
 import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.OK
+import java.time.LocalDate
 
 @TestMethodOrder(OrderAnnotation::class)
 class AvailabilityEndpointIT : E2EIntegrationTest() {
-    @ParameterizedTest(name = "given check-in ({0}) date is not at least one day before check-out ({1}) date, when request made, then 400 should be returned")
+    @ParameterizedTest(
+        name = "given check-in ({0}) date is not at least one day before check-out ({1}) date, when request made, then 400 should be returned",
+    )
     @CsvSource(
         "2022-04-01, 2022-04-01",
         "2022-04-02, 2022-04-01",
@@ -49,7 +51,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     HOTEL_A,
                     checkIn,
                     checkOut,
-                )
+                ),
             )
         } Executes {
             get(AVAILABILITY_ENDPOINT)
@@ -63,7 +65,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     withStatus(BAD_REQUEST.value())
                     withDetail("Check-in date should be at least one day before check-out date.")
                     withCorrelationId(GIVEN_CORRELATION_ID)
-                }
+                },
             )
         }
     }
@@ -80,7 +82,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     HOTEL_A,
                     ROOM_A1_FIRST_DATE,
                     ROOM_A1_THIRD_DATE,
-                )
+                ),
             )
         } Executes {
             get(AVAILABILITY_ENDPOINT)
@@ -94,7 +96,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     withStatus(NOT_FOUND.value())
                     withDetail("Hotel not found: $HOTEL_A")
                     withCorrelationId(GIVEN_CORRELATION_ID)
-                }
+                },
             )
         }
     }
@@ -114,7 +116,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     HOTEL_A,
                     ROOM_A1_FIRST_DATE,
                     ROOM_A1_THIRD_DATE,
-                )
+                ),
             )
         } Executes {
             get(AVAILABILITY_ENDPOINT)
@@ -128,7 +130,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     withStatus(CONFLICT.value())
                     withDetail("No rooms available for hotel: $HOTEL_A")
                     withCorrelationId(GIVEN_CORRELATION_ID)
-                }
+                },
             )
         }
     }
@@ -149,7 +151,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     HOTEL_A,
                     ROOM_A1_FIRST_DATE,
                     ROOM_A1_THIRD_DATE,
-                )
+                ),
             )
         } Executes {
             get(AVAILABILITY_ENDPOINT)
@@ -163,7 +165,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     withStatus(CONFLICT.value())
                     withDetail("No room ($ROOM_A1) pricing available for nights between: $ROOM_A1_FIRST_DATE and $ROOM_A1_SECOND_DATE.")
                     withCorrelationId(GIVEN_CORRELATION_ID)
-                }
+                },
             )
         }
     }
@@ -209,12 +211,12 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     .withChargeType(ONCE),
                 extraChargeFlat()
                     .withPrice(HOTEL_A_FLAT_PRICE_PER_NIGHT)
-                    .withChargeType(PER_NIGHT)
+                    .withChargeType(PER_NIGHT),
             )
             withExtraCharge(
                 extraChargePercentage()
                     .withPercentage(HOTEL_A_FLAT_PRICE_PERCENT)
-                    .withAppliedOn(FIRST_NIGHT)
+                    .withAppliedOn(FIRST_NIGHT),
             )
         }
         When {
@@ -226,7 +228,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                     HOTEL_A,
                     ROOM_A1_FIRST_DATE,
                     ROOM_A1_THIRD_DATE,
-                )
+                ),
             )
         } Executes {
             get(AVAILABILITY_ENDPOINT)
@@ -248,7 +250,7 @@ class AvailabilityEndpointIT : E2EIntegrationTest() {
                         EXPECTED_TOTAL_FOR_ROOM_A2,
                         HOTEL_A_CURRENCY.currencyCode,
                     ),
-                )
+                ),
             )
         }
     }

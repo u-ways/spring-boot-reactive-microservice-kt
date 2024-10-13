@@ -19,8 +19,6 @@ import io.netty.handler.codec.http.HttpHeaderValues.APPLICATION_JSON
 import io.restassured.RestAssured.baseURI
 import io.restassured.RestAssured.port
 import io.restassured.http.ContentType.JSON
-import java.time.LocalDate
-import java.util.Currency
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
@@ -28,6 +26,8 @@ import org.junit.jupiter.api.TestMethodOrder
 import org.springframework.http.HttpStatus.ACCEPTED
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.NOT_FOUND
+import java.time.LocalDate
+import java.util.Currency
 
 @TestMethodOrder(OrderAnnotation::class)
 class BookingEndpointIT : E2EIntegrationTest() {
@@ -49,16 +49,16 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     Guest(
                         GUEST_NAME,
                         GUEST_SURNAME,
-                        GUEST_BIRTHDATE
+                        GUEST_BIRTHDATE,
                     ),
                     Payment(
                         PAYMENT_CARD_HOLDER,
                         PAYMENT_CARD_NUMBER,
                         PAYMENT_CVV,
                         PAYMENT_EXPIRY_MONTH,
-                        PAYMENT_EXPIRY_YEAR
-                    )
-                )
+                        PAYMENT_EXPIRY_YEAR,
+                    ),
+                ),
             )
         } Executes {
             post(BOOKING_ENDPOINT)
@@ -72,7 +72,7 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     withStatus(NOT_FOUND.value())
                     withDetail("Hotel not found: $HOTEL_B")
                     withCorrelationId(GIVEN_CORRELATION_ID)
-                }
+                },
             )
         } And {
             katanoxQueue.shouldNotContainAnyMessages()
@@ -108,12 +108,12 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     .withChargeType(ONCE),
                 extraChargeFlat()
                     .withPrice(HOTEL_A_FLAT_PRICE_PER_NIGHT)
-                    .withChargeType(PER_NIGHT)
+                    .withChargeType(PER_NIGHT),
             )
             withExtraCharge(
                 extraChargePercentage()
                     .withPercentage(HOTEL_A_FLAT_PRICE_PERCENT)
-                    .withAppliedOn(FIRST_NIGHT)
+                    .withAppliedOn(FIRST_NIGHT),
             )
         }
         When {
@@ -131,16 +131,16 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     Guest(
                         GUEST_NAME,
                         GUEST_SURNAME,
-                        GUEST_BIRTHDATE
+                        GUEST_BIRTHDATE,
                     ),
                     Payment(
                         PAYMENT_CARD_HOLDER,
                         PAYMENT_CARD_NUMBER,
                         PAYMENT_CVV,
                         PAYMENT_EXPIRY_MONTH,
-                        PAYMENT_EXPIRY_YEAR
-                    )
-                )
+                        PAYMENT_EXPIRY_YEAR,
+                    ),
+                ),
             )
         } Executes {
             post(BOOKING_ENDPOINT)
@@ -154,7 +154,7 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     withStatus(BAD_REQUEST.value())
                     withDetail("Currency does not match hotel requirements.")
                     withCorrelationId(GIVEN_CORRELATION_ID)
-                }
+                },
             )
         } And {
             katanoxQueue.shouldNotContainAnyMessages()
@@ -200,16 +200,16 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     Guest(
                         GUEST_NAME,
                         GUEST_SURNAME,
-                        GUEST_BIRTHDATE
+                        GUEST_BIRTHDATE,
                     ),
                     Payment(
                         PAYMENT_CARD_HOLDER,
                         PAYMENT_CARD_NUMBER,
                         PAYMENT_CVV,
                         PAYMENT_EXPIRY_MONTH,
-                        PAYMENT_EXPIRY_YEAR
-                    )
-                )
+                        PAYMENT_EXPIRY_YEAR,
+                    ),
+                ),
             )
         } Executes {
             post(BOOKING_ENDPOINT)
@@ -223,7 +223,7 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     withStatus(BAD_REQUEST.value())
                     withDetail("Price does not match the availability quote for room: $ROOM_A1")
                     withCorrelationId(GIVEN_CORRELATION_ID)
-                }
+                },
             )
         } And {
             katanoxQueue.shouldNotContainAnyMessages()
@@ -259,12 +259,12 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     .withChargeType(ONCE),
                 extraChargeFlat()
                     .withPrice(HOTEL_A_FLAT_PRICE_PER_NIGHT)
-                    .withChargeType(PER_NIGHT)
+                    .withChargeType(PER_NIGHT),
             )
             withExtraCharge(
                 extraChargePercentage()
                     .withPercentage(HOTEL_A_FLAT_PRICE_PERCENT)
-                    .withAppliedOn(FIRST_NIGHT)
+                    .withAppliedOn(FIRST_NIGHT),
             )
         }
         When {
@@ -282,16 +282,16 @@ class BookingEndpointIT : E2EIntegrationTest() {
                     Guest(
                         GUEST_NAME,
                         GUEST_SURNAME,
-                        GUEST_BIRTHDATE
+                        GUEST_BIRTHDATE,
                     ),
                     Payment(
                         PAYMENT_CARD_HOLDER,
                         PAYMENT_CARD_NUMBER,
                         PAYMENT_CVV,
                         PAYMENT_EXPIRY_MONTH,
-                        PAYMENT_EXPIRY_YEAR
-                    )
-                )
+                        PAYMENT_EXPIRY_YEAR,
+                    ),
+                ),
             )
         } Executes {
             post(BOOKING_ENDPOINT)

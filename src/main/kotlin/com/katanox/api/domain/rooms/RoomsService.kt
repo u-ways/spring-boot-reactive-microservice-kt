@@ -9,12 +9,12 @@ import com.katanox.api.sql.tables.pojos.ExtraChargesFlat
 import com.katanox.api.sql.tables.pojos.ExtraChargesPercentage
 import com.katanox.api.sql.tables.pojos.Prices
 import com.katanox.api.sql.tables.pojos.Rooms
-import java.math.BigDecimal
 import org.slf4j.event.Level
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono.error
+import java.math.BigDecimal
 
 @Service
 class RoomsService(

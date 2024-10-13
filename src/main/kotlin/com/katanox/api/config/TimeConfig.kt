@@ -1,9 +1,9 @@
 package com.katanox.api.config
 
 import jakarta.annotation.PostConstruct
-import java.util.TimeZone
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
+import java.util.TimeZone
 
 /**
  * Time zone configuration class.
@@ -19,6 +19,5 @@ class TimeConfig(
     @Value("\${spring.jackson.time-zone}") private val timeZone: String,
 ) {
     @PostConstruct
-    fun init() =
-        TimeZone.setDefault(TimeZone.getTimeZone(timeZone))
+    fun init() = TimeZone.setDefault(TimeZone.getTimeZone(timeZone))
 }

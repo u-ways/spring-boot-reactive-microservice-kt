@@ -1,4 +1,3 @@
-import java.util.Properties
 import nu.studer.gradle.jooq.JooqGenerate
 import org.flywaydb.gradle.task.FlywayMigrateTask
 import org.gradle.api.JavaVersion.VERSION_21
@@ -7,6 +6,7 @@ import org.gradle.api.tasks.SourceSet.MAIN_SOURCE_SET_NAME
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.konan.properties.hasProperty
 import org.jooq.meta.jaxb.Logging
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.spring.boot)
@@ -203,12 +203,16 @@ tasks {
 }
 
 /** We collect the main source set configurations instead of path guessing. */
-private fun Project.mainSourceSetConfigs(): SourceSet = extensions
-    .getByName("sourceSets")
-    .let { ext -> ext as SourceSetContainer }
-    .getByName(MAIN_SOURCE_SET_NAME)
+private fun Project.mainSourceSetConfigs(): SourceSet =
+    extensions
+        .getByName("sourceSets")
+        .let { ext -> ext as SourceSetContainer }
+        .getByName(MAIN_SOURCE_SET_NAME)
 
 /** A safer way to collect properties from the application.properties file. */
 private infix fun String.from(properties: Properties): String =
-    if (properties.hasProperty(this)) properties.getProperty(this)
-    else error("Property '$this' not found.")
+    if (properties.hasProperty(this)) {
+        properties.getProperty(this)
+    } else {
+        error("Property '$this' not found.")
+    }

@@ -1,6 +1,5 @@
 package com.katanox.api.support
 
-import java.util.function.Supplier
 import org.springframework.amqp.core.Message
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.rabbit.connection.ConnectionFactory
@@ -11,6 +10,7 @@ import org.springframework.boot.autoconfigure.amqp.RabbitProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import java.util.function.Supplier
 
 /**
  * A blocking AMQP configuration for testing purposes.

@@ -2,7 +2,6 @@ package com.katanox.api.support
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import javax.sql.DataSource
 import org.jooq.DSLContext
 import org.jooq.SQLDialect
 import org.jooq.impl.DSL
@@ -14,6 +13,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.jdbc.datasource.DataSourceTransactionManager
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.EnableTransactionManagement
+import javax.sql.DataSource
 
 /**
  * A transactional blocking instance of the jOOQ DSL.
@@ -37,10 +37,8 @@ class BlockingJooqConfig {
     }.let(::HikariDataSource)
 
     @Bean
-    fun transactionManager(dataSource: DataSource): PlatformTransactionManager =
-        DataSourceTransactionManager(dataSource)
+    fun transactionManager(dataSource: DataSource): PlatformTransactionManager = DataSourceTransactionManager(dataSource)
 
     @Bean
-    fun blockingJooq(dataSource: DataSource): DSLContext =
-        DSL.using(dataSource, SQLDialect.POSTGRES)
+    fun blockingJooq(dataSource: DataSource): DSLContext = DSL.using(dataSource, SQLDialect.POSTGRES)
 }

@@ -11,9 +11,12 @@ import reactor.core.publisher.Mono
 class HotelsRepository(
     @Autowired private val jooq: DSLContext,
 ) {
-    fun findById(id: Long): Mono<Hotels> = Mono.from(jooq
-        .select()
-        .from(HOTELS)
-        .where(HOTELS.ID.eq(id)))
-        .map { r -> r.into(Hotels::class.java) }
+    fun findById(id: Long): Mono<Hotels> =
+        Mono.from(
+            jooq
+                .select()
+                .from(HOTELS)
+                .where(HOTELS.ID.eq(id)),
+        )
+            .map { r -> r.into(Hotels::class.java) }
 }

@@ -25,10 +25,11 @@ abstract class ProblemHandlerFunction : HandlerFunction<ServerResponse> {
 
     final override fun handle(request: ServerRequest): Mono<ServerResponse> =
         invoke(request).onErrorResume(Problem::class.java) { problem ->
-            val error = problemDetail()
-                .withProblem(problem)
-                .withRequest(request)
-                .build()
+            val error =
+                problemDetail()
+                    .withProblem(problem)
+                    .withRequest(request)
+                    .build()
 
             ServerResponse
                 .status(error.status)

@@ -11,8 +11,11 @@ import reactor.core.publisher.Flux
 class ExtraChargesFlatRepository(
     @Autowired private val jooq: DSLContext,
 ) {
-    fun findAllByHotelId(id: Long): Flux<ExtraChargesFlat> = Flux.from(jooq
-        .selectFrom(EXTRA_CHARGES_FLAT)
-        .where(EXTRA_CHARGES_FLAT.HOTEL_ID.eq(id)))
-        .map { r -> r.into(ExtraChargesFlat::class.java) }
+    fun findAllByHotelId(id: Long): Flux<ExtraChargesFlat> =
+        Flux.from(
+            jooq
+                .selectFrom(EXTRA_CHARGES_FLAT)
+                .where(EXTRA_CHARGES_FLAT.HOTEL_ID.eq(id)),
+        )
+            .map { r -> r.into(ExtraChargesFlat::class.java) }
 }

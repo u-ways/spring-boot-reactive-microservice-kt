@@ -5,8 +5,6 @@ import com.katanox.api.ext.OutboundMessageTemplate
 import com.rabbitmq.client.AMQP.BasicProperties
 import com.rabbitmq.client.Connection
 import com.rabbitmq.client.ConnectionFactory
-import java.util.Date
-import kotlin.text.Charsets.UTF_8
 import org.springframework.amqp.core.AmqpAdmin
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
@@ -28,7 +26,8 @@ import reactor.rabbitmq.OutboundMessage
 import reactor.rabbitmq.RabbitFlux
 import reactor.rabbitmq.Sender
 import reactor.rabbitmq.SenderOptions
-
+import java.util.Date
+import kotlin.text.Charsets.UTF_8
 
 @Configuration
 class RabbitMQConfig(
@@ -48,53 +47,58 @@ class RabbitMQConfig(
     }
 
     @Bean
-    fun katanoxDlQueue(): Queue = QueueBuilder
-        .durable(dlQueueName)
-        .build()
-        .also(admin::declareQueue)
+    fun katanoxDlQueue(): Queue =
+        QueueBuilder
+            .durable(dlQueueName)
+            .build()
+            .also(admin::declareQueue)
 
     @Bean
-    fun katanoxDlExchange(): DirectExchange = ExchangeBuilder
-        .directExchange(dlExchange)
-        .durable(SET_AS_DURABLE)
-        .build<DirectExchange>()
-        .also(admin::declareExchange)
-
+    fun katanoxDlExchange(): DirectExchange =
+        ExchangeBuilder
+            .directExchange(dlExchange)
+            .durable(SET_AS_DURABLE)
+            .build<DirectExchange>()
+            .also(admin::declareExchange)
 
     @Bean
     fun katanoxDlBinding(
         @Autowired katanoxDlQueue: Queue,
         @Autowired katanoxDlExchange: DirectExchange,
-    ): Binding = BindingBuilder
-        .bind(katanoxDlQueue)
-        .to(katanoxDlExchange)
-        .with(dlRoutingKey)
-        .also(admin::declareBinding)
+    ): Binding =
+        BindingBuilder
+            .bind(katanoxDlQueue)
+            .to(katanoxDlExchange)
+            .with(dlRoutingKey)
+            .also(admin::declareBinding)
 
     @Bean
-    fun katanoxQueue(): Queue = QueueBuilder
-        .durable(queueName)
-        .deadLetterExchange(dlExchange)
-        .deadLetterRoutingKey(dlRoutingKey)
-        .build()
-        .also(admin::declareQueue)
+    fun katanoxQueue(): Queue =
+        QueueBuilder
+            .durable(queueName)
+            .deadLetterExchange(dlExchange)
+            .deadLetterRoutingKey(dlRoutingKey)
+            .build()
+            .also(admin::declareQueue)
 
     @Bean
-    fun katanoxExchange(): DirectExchange = ExchangeBuilder
-        .directExchange(exchange)
-        .durable(SET_AS_DURABLE)
-        .build<DirectExchange>()
-        .also(admin::declareExchange)
+    fun katanoxExchange(): DirectExchange =
+        ExchangeBuilder
+            .directExchange(exchange)
+            .durable(SET_AS_DURABLE)
+            .build<DirectExchange>()
+            .also(admin::declareExchange)
 
     @Bean
     fun katanoxBinding(
         @Autowired katanoxQueue: Queue,
         @Autowired katanoxExchange: DirectExchange,
-    ): Binding = BindingBuilder
-        .bind(katanoxQueue)
-        .to(katanoxExchange)
-        .with(routingKey)
-        .also(admin::declareBinding)
+    ): Binding =
+        BindingBuilder
+            .bind(katanoxQueue)
+            .to(katanoxExchange)
+            .with(routingKey)
+            .also(admin::declareBinding)
 
     /**
      * NOTE:
@@ -106,24 +110,26 @@ class RabbitMQConfig(
     @Primary
     fun reactiveConnectionFactory(
         @Autowired rabbitProperties: RabbitProperties,
-    ): Mono<Connection> = Mono.fromCallable {
-        ConnectionFactory().apply {
-            host = rabbitProperties.host
-            port = rabbitProperties.port
-            username = rabbitProperties.username
-            password = rabbitProperties.password
-        }.newConnection(REACTIVE_CONNECTION_NAME)
-    }.cache()
+    ): Mono<Connection> =
+        Mono.fromCallable {
+            ConnectionFactory().apply {
+                host = rabbitProperties.host
+                port = rabbitProperties.port
+                username = rabbitProperties.username
+                password = rabbitProperties.password
+            }.newConnection(REACTIVE_CONNECTION_NAME)
+        }.cache()
 
     @Primary
     @Bean(destroyMethod = "close")
     fun reactiveSender(
         @Autowired @Qualifier("reactiveConnectionFactory") connection: Mono<Connection>,
-    ): Sender = RabbitFlux.createSender(
-        SenderOptions()
-            .connectionMono(connection)
-            .resourceManagementScheduler(Schedulers.boundedElastic())
-    )
+    ): Sender =
+        RabbitFlux.createSender(
+            SenderOptions()
+                .connectionMono(connection)
+                .resourceManagementScheduler(Schedulers.boundedElastic()),
+        )
 
     @Bean
     fun katanoxOutboundMessageTemplate(
@@ -139,7 +145,7 @@ class RabbitMQConfig(
                 .contentType(APPLICATION_JSON_VALUE)
                 .deliveryMode(STORED_ON_DISK_PERSISTENCE)
                 .build(),
-            jsonMapper.writeValueAsBytes(message)
+            jsonMapper.writeValueAsBytes(message),
         )
     }
 }

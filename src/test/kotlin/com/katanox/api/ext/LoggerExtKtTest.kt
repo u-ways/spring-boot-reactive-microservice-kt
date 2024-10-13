@@ -16,10 +16,6 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import io.mockk.unmockkAll
 import io.mockk.verify
-import java.net.InetSocketAddress
-import java.time.Clock
-import java.time.Instant
-import java.util.UUID
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -38,6 +34,10 @@ import org.springframework.http.server.reactive.ServerHttpResponse
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toFlux
 import reactor.test.StepVerifier
+import java.net.InetSocketAddress
+import java.time.Clock
+import java.time.Instant
+import java.util.UUID
 
 class LoggerExtKtTest {
     private lateinit var streamOfData: Mono<String>
@@ -108,20 +108,21 @@ class LoggerExtKtTest {
                     request,
                     response,
                     GIVEN_CORRELATION_ID,
-                    Clock.fixed(Instant.EPOCH, Clock.systemDefaultZone().zone)
+                    Clock.fixed(Instant.EPOCH, Clock.systemDefaultZone().zone),
                 )
                 .block()
 
-            val expectedAccessLog = String
-                .format(
-                    "%s - - [%s] \"%s %s HTTP/1.1\" %s - \"%s\"",
-                    request.remoteAddress?.address?.hostAddress ?: "-",
-                    Instant.EPOCH,
-                    request.method,
-                    request.uri.path,
-                    response.statusCode?.value() ?: "000",
-                    request.headers.getFirst(USER_AGENT) ?: "Unknown"
-                )
+            val expectedAccessLog =
+                String
+                    .format(
+                        "%s - - [%s] \"%s %s HTTP/1.1\" %s - \"%s\"",
+                        request.remoteAddress?.address?.hostAddress ?: "-",
+                        Instant.EPOCH,
+                        request.method,
+                        request.uri.path,
+                        response.statusCode?.value() ?: "000",
+                        request.headers.getFirst(USER_AGENT) ?: "Unknown",
+                    )
 
             infoCollector.logs()
                 .shouldBeSingleton()
@@ -132,7 +133,6 @@ class LoggerExtKtTest {
 
     @Nested
     inner class LogOnNextTest {
-
         @Nested
         @ExtendWith(LogsCollectorExtension::class)
         inner class Mono {

@@ -3,11 +3,11 @@ package com.katanox.api.domain.extra.flat
 import com.katanox.api.ext.logOnNext
 import com.katanox.api.sql.enums.ChargeType
 import com.katanox.api.sql.tables.pojos.ExtraChargesFlat
-import java.math.BigDecimal
 import org.slf4j.event.Level
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
+import java.math.BigDecimal
 
 @Service
 class ExtraChargesFlatService(
@@ -38,11 +38,14 @@ class ExtraChargesFlatService(
         fun calculate(
             flatCharges: List<ExtraChargesFlat>,
             nightsCount: Int,
-        ): BigDecimal = flatCharges.fold(BigDecimal.ZERO) { acc, charge ->
-            acc + (when (charge.chargeType) {
-                ChargeType.ONCE -> charge.price
-                ChargeType.PER_NIGHT -> charge.price.multiply(nightsCount.toBigDecimal())
-            })
-        }
+        ): BigDecimal =
+            flatCharges.fold(BigDecimal.ZERO) { acc, charge ->
+                acc + (
+                    when (charge.chargeType) {
+                        ChargeType.ONCE -> charge.price
+                        ChargeType.PER_NIGHT -> charge.price.multiply(nightsCount.toBigDecimal())
+                    }
+                )
+            }
     }
 }

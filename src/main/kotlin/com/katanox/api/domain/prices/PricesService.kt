@@ -3,13 +3,13 @@ package com.katanox.api.domain.prices
 import com.katanox.api.domain.problem.Problem
 import com.katanox.api.ext.logOnNext
 import com.katanox.api.sql.tables.pojos.Prices
-import java.math.BigDecimal
-import java.time.LocalDate
 import org.slf4j.event.Level
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import reactor.core.publisher.Mono.error
+import java.math.BigDecimal
+import java.time.LocalDate
 
 @Service
 class PricesService(
@@ -25,7 +25,11 @@ class PricesService(
      * @param to the end date
      * @return a Flux of [Prices]
      */
-    fun findAllByRoomIdAndDateBetween(roomId: Long, from: LocalDate, to: LocalDate): Mono<List<Prices>> =
+    fun findAllByRoomIdAndDateBetween(
+        roomId: Long,
+        from: LocalDate,
+        to: LocalDate,
+    ): Mono<List<Prices>> =
         pricesRepository
             .findAllByRoomIdAndDateBetween(roomId, from, to)
             .logOnNext(Level.DEBUG)
@@ -41,8 +45,6 @@ class PricesService(
          * @return the total price (base price)
          */
         @JvmStatic
-        fun calculate(
-            prices: List<Prices>,
-        ): BigDecimal = prices.map(Prices::price).reduce(BigDecimal::add)
+        fun calculate(prices: List<Prices>): BigDecimal = prices.map(Prices::price).reduce(BigDecimal::add)
     }
 }

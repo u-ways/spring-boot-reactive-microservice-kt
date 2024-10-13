@@ -16,7 +16,7 @@ class ValidationExtKtTest {
                     .create(
                         Mono
                             .just(10)
-                            .checkFor(problem) { this % 2 != 0 }
+                            .checkFor(problem) { this % 2 != 0 },
                     )
                     .expectErrorMatches {
                         it is InvalidInput && it.message == problem.message
@@ -31,7 +31,7 @@ class ValidationExtKtTest {
                 .create(
                     Mono
                         .just(10)
-                        .checkFor(InvalidInput("Should not be thrown")) { this % 2 == 0 }
+                        .checkFor(InvalidInput("Should not be thrown")) { this % 2 == 0 },
                 )
                 .expectNext(10)
                 .verifyComplete()
