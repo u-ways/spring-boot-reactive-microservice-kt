@@ -1,7 +1,7 @@
 package com.katanox.api.ext
 
-import java.util.UUID
 import reactor.rabbitmq.OutboundMessage
+import java.util.UUID
 
 /**
  * A functional interface that prepares an [OutboundMessage] from a message and a correlation ID.
@@ -9,5 +9,8 @@ import reactor.rabbitmq.OutboundMessage
  */
 @FunctionalInterface
 fun interface OutboundMessageTemplate {
-    fun prepare(message: Any, correlationId: UUID): OutboundMessage
+    fun prepare(
+        message: Any,
+        correlationId: UUID,
+    ): OutboundMessage
 }

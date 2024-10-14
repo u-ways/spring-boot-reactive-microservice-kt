@@ -9,10 +9,6 @@ import io.restassured.response.Response
 import io.restassured.response.ValidatableResponse
 import io.restassured.specification.RequestSender
 import io.restassured.specification.RequestSpecification
-import java.time.LocalDate
-import java.util.Currency
-import java.util.UUID
-import java.util.function.Supplier
 import org.jooq.DSLContext
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.amqp.core.Message
@@ -20,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.web.server.LocalServerPort
+import java.time.LocalDate
+import java.util.Currency
+import java.util.UUID
+import java.util.function.Supplier
 
 /**
  * Base class for end-to-end integration tests, providing a DSL for constructing and executing test scenarios.
@@ -126,10 +126,11 @@ abstract class E2EIntegrationTest : IntegrationTest {
      * @param block the block to be applied to the request, allowing for detailed specification of the initial state.
      * @see [HotelsBuilder] for details on constructing hotel domain objects within this context.
      */
-    protected fun Given(block: HotelsBuilder.() -> Unit) = HotelsBuilder.hotel()
-        .apply(block)
-        .build()
-        .let(domainDaoFactory::create)
+    protected fun Given(block: HotelsBuilder.() -> Unit) =
+        HotelsBuilder.hotel()
+            .apply(block)
+            .build()
+            .let(domainDaoFactory::create)
 
     /**
      * Primes the database with additional domain data, to be used after a 'Given' step in a test scenario.
@@ -140,10 +141,11 @@ abstract class E2EIntegrationTest : IntegrationTest {
      * @param block the block to be applied to the request, facilitating the extension or addition of test conditions.
      * @see [HotelsBuilder] for constructing additional hotel domain objects in this extended context.
      */
-    protected fun And(block: HotelsBuilder.() -> Unit) = HotelsBuilder.hotel()
-        .apply(block)
-        .build()
-        .let(domainDaoFactory::create)
+    protected fun And(block: HotelsBuilder.() -> Unit) =
+        HotelsBuilder.hotel()
+            .apply(block)
+            .build()
+            .let(domainDaoFactory::create)
 
     /**
      * Executes the main action of the test scenario, marking the transition from setting the context to performing an
@@ -154,11 +156,9 @@ abstract class E2EIntegrationTest : IntegrationTest {
      * @see [Specification] for details on the request specification and execution.
      * @see [Response.Then] for details on validating the response.
      */
-    protected fun When(block: RequestSpecification.() -> Unit): RequestSpecification =
-        RestAssured.given().apply(block)
+    protected fun When(block: RequestSpecification.() -> Unit): RequestSpecification = RestAssured.given().apply(block)
 
-    protected infix fun RequestSpecification.Executes(block: RequestSender.() -> Response): Response =
-        this.`when`().run(block)
+    protected infix fun RequestSpecification.Executes(block: RequestSender.() -> Response): Response = this.`when`().run(block)
 
     /**
      * Validates the outcome of the test scenario, following the action performed in the [When] step. This function
@@ -168,8 +168,7 @@ abstract class E2EIntegrationTest : IntegrationTest {
      * @param block the function to be applied to the response for validation, containing assertions or checks.
      * @return the [ValidatableResponse], allowing for further chained validations if necessary.
      */
-    protected infix fun Response.Then(block: ValidatableResponse.() -> Unit): ValidatableResponse =
-        this.then().apply(block)
+    protected infix fun Response.Then(block: ValidatableResponse.() -> Unit): ValidatableResponse = this.then().apply(block)
 
     /**
      * Validates the AMQP outcome of the test scenario, following the action performed in the [Then] step. This function

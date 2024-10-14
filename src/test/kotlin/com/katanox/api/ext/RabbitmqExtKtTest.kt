@@ -3,11 +3,11 @@ package com.katanox.api.ext
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
-import java.util.UUID
-import kotlin.reflect.full.findAnnotation
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import reactor.rabbitmq.OutboundMessage
+import java.util.UUID
+import kotlin.reflect.full.findAnnotation
 
 class RabbitmqExtKtTest {
     @Nested

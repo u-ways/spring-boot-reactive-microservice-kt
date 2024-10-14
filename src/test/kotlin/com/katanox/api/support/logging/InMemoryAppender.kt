@@ -9,14 +9,15 @@ import ch.qos.logback.core.AppenderBase
  * This is useful for testing purposes.
  */
 class InMemoryAppender(
-    private val requiredLevel: Level
+    private val requiredLevel: Level,
 ) : AppenderBase<ILoggingEvent>() {
     private val events: MutableList<String> = ArrayList()
 
     internal fun events(): List<String> = events.toList()
 
     override fun append(eventObject: ILoggingEvent) {
-        if (eventObject.level.isGreaterOrEqual(requiredLevel))
+        if (eventObject.level.isGreaterOrEqual(requiredLevel)) {
             events.add(eventObject.message)
+        }
     }
 }

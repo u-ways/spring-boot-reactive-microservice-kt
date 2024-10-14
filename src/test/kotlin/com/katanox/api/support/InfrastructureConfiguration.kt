@@ -21,7 +21,6 @@ import org.testcontainers.utility.DockerImageName
  */
 @TestConfiguration(proxyBeanMethods = false)
 class InfrastructureConfiguration {
-
     /**
      * The `@[ServiceConnection]` annotation allows you to automatically inject the connection details
      * of a container into your test class without having to manually set up the properties via

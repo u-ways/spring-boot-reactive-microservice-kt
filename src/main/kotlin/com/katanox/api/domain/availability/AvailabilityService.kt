@@ -1,5 +1,6 @@
 package com.katanox.api.domain.availability
 
+import com.katanox.api.domain.booking.BookingService
 import com.katanox.api.domain.extra.flat.ExtraChargesFlatService
 import com.katanox.api.domain.extra.percentage.ExtraChargesPercentageService
 import com.katanox.api.domain.hotels.HotelsService
@@ -14,7 +15,6 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.util.function.component1
 import reactor.kotlin.core.util.function.component2
-import com.katanox.api.domain.booking.BookingService
 
 /**
  * # Overview
@@ -113,38 +113,38 @@ class AvailabilityService(
     }
 
     @Cacheable("availability.search")
-    fun search(requestMono: Mono<AvailabilityRequest>): Flux<AvailabilityResponse> = requestMono
-        .checkFor(InvalidInput("Check-in date should be at least one day before check-out date.")) {
-            checkIn.toEpochDay() < checkOut.toEpochDay()
-        }
-        .flatMapMany { (hotelId, checkIn, checkOut) ->
-            hotelsService
-                .findExisting(hotelId)
-                .flatMapMany { hotel ->
-                    Mono.zip(
-                        extraChargesFlatService.findAllByHotelId(hotelId),
-                        extraChargesPercentageService.findAllByHotelId(hotelId)
-                    ).flatMapMany { (flatCharges, percentageCharges) ->
-                        roomsService
-                            .findAllByHotelId(hotelId)
-                            .flatMap { room ->
-                                pricesService
-                                    .findAllByRoomIdAndDateBetween(room.id!!, checkIn, checkOut.minusDays(DO_NOT_COUNT_CHECKOUT))
-                            }
-                            .filter { availability ->
-                                availability.size == checkIn.datesUntil(checkOut).toList().size
-                            }
-                            .map { prices ->
-                                AvailabilityResponse(
-                                    hotelId = hotelId,
-                                    roomId = prices.first().roomId,
-                                    price = RoomsService.calculate(prices, flatCharges, percentageCharges, hotel.vat),
-                                    currency = hotel.currency
-                                )
-                            }
+    fun search(requestMono: Mono<AvailabilityRequest>): Flux<AvailabilityResponse> =
+        requestMono
+            .checkFor(InvalidInput("Check-in date should be at least one day before check-out date.")) {
+                checkIn.toEpochDay() < checkOut.toEpochDay()
+            }
+            .flatMapMany { (hotelId, checkIn, checkOut) ->
+                hotelsService
+                    .findExisting(hotelId)
+                    .flatMapMany { hotel ->
+                        Mono.zip(
+                            extraChargesFlatService.findAllByHotelId(hotelId),
+                            extraChargesPercentageService.findAllByHotelId(hotelId),
+                        ).flatMapMany { (flatCharges, percentageCharges) ->
+                            roomsService
+                                .findAllByHotelId(hotelId)
+                                .flatMap { room ->
+                                    pricesService
+                                        .findAllByRoomIdAndDateBetween(room.id!!, checkIn, checkOut.minusDays(DO_NOT_COUNT_CHECKOUT))
+                                }
+                                .filter { availability ->
+                                    availability.size == checkIn.datesUntil(checkOut).toList().size
+                                }
+                                .map { prices ->
+                                    AvailabilityResponse(
+                                        hotelId = hotelId,
+                                        roomId = prices.first().roomId,
+                                        price = RoomsService.calculate(prices, flatCharges, percentageCharges, hotel.vat),
+                                        currency = hotel.currency,
+                                    )
+                                }
+                        }
                     }
-                }
-        }
-        .cache()
+            }
+            .cache()
 }
-

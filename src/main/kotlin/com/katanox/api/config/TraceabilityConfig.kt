@@ -1,7 +1,6 @@
 package com.katanox.api.config
 
 import com.katanox.api.ext.auditRequest
-import java.util.UUID
 import org.slf4j.MDC
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.Ordered.HIGHEST_PRECEDENCE
@@ -10,6 +9,7 @@ import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebFilterChain
 import reactor.core.publisher.Mono
+import java.util.UUID
 
 /**
  * A filter that sets the correlation ID in the reactor context and the MDC context.
@@ -37,12 +37,16 @@ class TraceabilityConfig : WebFilter {
         internal val CORRELATION_ID_PROVIDER: () -> String = { UUID.randomUUID().toString() }
     }
 
-    override fun filter(exchange: ServerWebExchange, upstreamChain: WebFilterChain): Mono<Void> {
-        val correlationId = exchange.request
-            .headers[CORRELATION_HTTP_HEADER_KEY]
-            .takeUnless { h -> h.isNullOrEmpty() }
-            ?.first()
-            ?: CORRELATION_ID_PROVIDER.invoke()
+    override fun filter(
+        exchange: ServerWebExchange,
+        upstreamChain: WebFilterChain,
+    ): Mono<Void> {
+        val correlationId =
+            exchange.request
+                .headers[CORRELATION_HTTP_HEADER_KEY]
+                .takeUnless { h -> h.isNullOrEmpty() }
+                ?.first()
+                ?: CORRELATION_ID_PROVIDER.invoke()
 
         return upstreamChain
             .filter(exchange)
@@ -62,5 +66,3 @@ class TraceabilityConfig : WebFilter {
             .doFinally { MDC.clear() }
     }
 }
-
-

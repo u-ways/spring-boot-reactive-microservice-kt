@@ -8,13 +8,15 @@ class BookingDTOBuilder private constructor() {
     private lateinit var bookingId: UUID
     private lateinit var request: BookingRequest
 
-    fun withBookingId(bookingId: UUID) = apply {
-        this.bookingId = bookingId
-    }
+    fun withBookingId(bookingId: UUID) =
+        apply {
+            this.bookingId = bookingId
+        }
 
-    fun withBookingRequest(request: BookingRequestBuilder.() -> Unit) = apply {
-        this.request = BookingRequestBuilder.bookingRequest().apply(request).build()
-    }
+    fun withBookingRequest(request: BookingRequestBuilder.() -> Unit) =
+        apply {
+            this.request = BookingRequestBuilder.bookingRequest().apply(request).build()
+        }
 
     fun build() = BookingDTO(bookingId, request)
 

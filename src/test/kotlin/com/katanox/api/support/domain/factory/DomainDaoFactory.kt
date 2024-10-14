@@ -17,11 +17,12 @@ class DomainDaoFactory(
     @Autowired @Qualifier("blockingJooq")
     private val jooq: DSLContext,
 ) {
-    fun create(hotel: HotelDTO) = jooq.transaction { c ->
-        HotelsDao(c).insert(hotel.hotel)
-        RoomsDao(c).insert(hotel.rooms.map(RoomsDTO::room))
-        PricesDao(c).insert(hotel.rooms.flatMap(RoomsDTO::prices))
-        ExtraChargesFlatDao(c).insert(hotel.extraChargeFlat)
-        ExtraChargesPercentageDao(c).insert(hotel.extraChargePercentage)
-    }
+    fun create(hotel: HotelDTO) =
+        jooq.transaction { c ->
+            HotelsDao(c).insert(hotel.hotel)
+            RoomsDao(c).insert(hotel.rooms.map(RoomsDTO::room))
+            PricesDao(c).insert(hotel.rooms.flatMap(RoomsDTO::prices))
+            ExtraChargesFlatDao(c).insert(hotel.extraChargeFlat)
+            ExtraChargesPercentageDao(c).insert(hotel.extraChargePercentage)
+        }
 }

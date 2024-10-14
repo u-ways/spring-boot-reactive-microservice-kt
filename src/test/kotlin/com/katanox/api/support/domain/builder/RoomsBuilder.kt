@@ -11,26 +11,30 @@ class RoomsBuilder private constructor() {
         fun room() = RoomsBuilder()
     }
 
-    private var room = Rooms(
-        id = Random.nextLong(0, 10000),
-        hotelId = Random.nextLong(0, 10000),
-        name = Random.alphaNumeric("room-name"),
-        description = Random.alphaNumeric("room-description"),
-        quantity = Random.nextInt(0, 10),
-    )
+    private var room =
+        Rooms(
+            id = Random.nextLong(0, 10000),
+            hotelId = Random.nextLong(0, 10000),
+            name = Random.alphaNumeric("room-name"),
+            description = Random.alphaNumeric("room-description"),
+            quantity = Random.nextInt(0, 10),
+        )
 
     private var price: List<PricesBuilder> = emptyList()
 
-    fun withRoomId(id: Long): RoomsBuilder = this.apply {
-        this.room = room.copy(id = id)
-    }
+    fun withRoomId(id: Long): RoomsBuilder =
+        this.apply {
+            this.room = room.copy(id = id)
+        }
 
-    fun withPrice(vararg price: PricesBuilder): RoomsBuilder = this.apply {
-        this.price = price.toList()
-    }
+    fun withPrice(vararg price: PricesBuilder): RoomsBuilder =
+        this.apply {
+            this.price = price.toList()
+        }
 
-    fun build(hotelId: Long): RoomsDTO = RoomsDTO(
-        room = room.copy(hotelId = hotelId),
-        prices = price.map { it.build(room.id!!) },
-    )
+    fun build(hotelId: Long): RoomsDTO =
+        RoomsDTO(
+            room = room.copy(hotelId = hotelId),
+            prices = price.map { it.build(room.id!!) },
+        )
 }

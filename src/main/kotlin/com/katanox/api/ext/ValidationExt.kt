@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono
 internal fun <T> Mono<T>.checkFor(
     problem: Problem,
     condition: T.() -> Boolean,
-): Mono<T> = this
-    .filter(condition)
-    .switchIfEmpty(Mono.error(problem))
+): Mono<T> =
+    this
+        .filter(condition)
+        .switchIfEmpty(Mono.error(problem))

@@ -20,11 +20,15 @@ import org.springframework.context.annotation.Configuration
 @EnableConfigurationProperties(FlywayProperties::class, R2dbcProperties::class)
 class FlywayConfig {
     @Bean(initMethod = "migrate")
-    fun flyway(flywayProperties: FlywayProperties, r2dbcProperties: R2dbcProperties): Flyway = Flyway
-        .configure()
-        .dataSource(flywayProperties.url, r2dbcProperties.username, r2dbcProperties.password)
-        .locations(*flywayProperties.locations.toTypedArray())
-        .baselineOnMigrate(flywayProperties.isBaselineOnMigrate)
-        .schemas(*flywayProperties.schemas.toTypedArray())
-        .load()
+    fun flyway(
+        flywayProperties: FlywayProperties,
+        r2dbcProperties: R2dbcProperties,
+    ): Flyway =
+        Flyway
+            .configure()
+            .dataSource(flywayProperties.url, r2dbcProperties.username, r2dbcProperties.password)
+            .locations(*flywayProperties.locations.toTypedArray())
+            .baselineOnMigrate(flywayProperties.isBaselineOnMigrate)
+            .schemas(*flywayProperties.schemas.toTypedArray())
+            .load()
 }

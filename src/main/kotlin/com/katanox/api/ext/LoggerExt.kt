@@ -3,9 +3,6 @@ package com.katanox.api.ext
 import com.katanox.api.Application.Companion.LOGGER
 import com.katanox.api.config.TraceabilityConfig.Companion.CORRELATION_CONTEXT_KEY
 import com.katanox.api.config.TraceabilityConfig.Companion.CORRELATION_MDC_KEY
-import java.time.Clock
-import java.time.Instant
-import kotlin.jvm.optionals.getOrNull
 import org.slf4j.MDC
 import org.slf4j.event.Level
 import org.slf4j.event.Level.DEBUG
@@ -19,6 +16,9 @@ import org.springframework.http.server.reactive.ServerHttpResponse
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.core.publisher.Signal
+import java.time.Clock
+import java.time.Instant
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * A reactive mdc-aware logging operator that logs the signal's value.
@@ -30,9 +30,10 @@ import reactor.core.publisher.Signal
 internal fun <T> Mono<T>.logOnNext(
     level: Level = INFO,
     message: (T) -> String = { value -> value.toString() },
-): Mono<T> = doOnEach { signal: Signal<T> ->
-    mdcAwareLogger(signal, message, level)
-}
+): Mono<T> =
+    doOnEach { signal: Signal<T> ->
+        mdcAwareLogger(signal, message, level)
+    }
 
 /**
  * A reactive mdc-aware logging operator that logs the signal's value.
@@ -44,9 +45,10 @@ internal fun <T> Mono<T>.logOnNext(
 internal fun <T> Flux<T>.logOnNext(
     level: Level = INFO,
     message: (T) -> String = { value -> value.toString() },
-): Flux<T> = doOnEach { signal: Signal<T> ->
-    mdcAwareLogger(signal, message, level)
-}
+): Flux<T> =
+    doOnEach { signal: Signal<T> ->
+        mdcAwareLogger(signal, message, level)
+    }
 
 /**
  * A reactive mdc-aware request auditor operator that logs the request method
@@ -70,7 +72,7 @@ internal fun <T> Mono<T>.auditRequest(
             request.method,
             request.uri.path,
             response.statusCode?.value() ?: "000",
-            request.headers.getFirst(USER_AGENT) ?: "Unknown"
+            request.headers.getFirst(USER_AGENT) ?: "Unknown",
         )
         .let { accessLog ->
             MDC

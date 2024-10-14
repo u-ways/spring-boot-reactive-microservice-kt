@@ -15,10 +15,11 @@ class LogsCollector(
     private lateinit var inMemoryAppender: InMemoryAppender
 
     internal fun start() {
-        inMemoryAppender = InMemoryAppender(requiredLevel)
-            .also(logger::addAppender)
-            .also(InMemoryAppender::start)
-            .apply { logger.level = requiredLevel }
+        inMemoryAppender =
+            InMemoryAppender(requiredLevel)
+                .also(logger::addAppender)
+                .also(InMemoryAppender::start)
+                .apply { logger.level = requiredLevel }
     }
 
     internal fun stop() {

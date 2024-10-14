@@ -15,48 +15,57 @@ class BookingRequestBuilder private constructor() {
     private lateinit var guest: BookingRequest.Guest
     private lateinit var payment: BookingRequest.Payment
 
-    fun withHotelId(hotelId: Long) = apply {
-        this.hotelId = hotelId
-    }
+    fun withHotelId(hotelId: Long) =
+        apply {
+            this.hotelId = hotelId
+        }
 
-    fun withRoomId(roomId: Long) = apply {
-        this.roomId = roomId
-    }
+    fun withRoomId(roomId: Long) =
+        apply {
+            this.roomId = roomId
+        }
 
-    fun withCheckIn(checkIn: LocalDate) = apply {
-        this.checkIn = checkIn
-    }
+    fun withCheckIn(checkIn: LocalDate) =
+        apply {
+            this.checkIn = checkIn
+        }
 
-    fun withCheckOut(checkOut: LocalDate) = apply {
-        this.checkOut = checkOut
-    }
+    fun withCheckOut(checkOut: LocalDate) =
+        apply {
+            this.checkOut = checkOut
+        }
 
-    fun withPrice(price: Double) = apply {
-        this.price = price
-    }
+    fun withPrice(price: Double) =
+        apply {
+            this.price = price
+        }
 
-    fun withCurrency(currency: Currency) = apply {
-        this.currency = currency
-    }
+    fun withCurrency(currency: Currency) =
+        apply {
+            this.currency = currency
+        }
 
-    fun withGuest(guest: BookingRequest.Guest) = apply {
-        this.guest = guest
-    }
+    fun withGuest(guest: BookingRequest.Guest) =
+        apply {
+            this.guest = guest
+        }
 
-    fun withPayment(payment: BookingRequest.Payment) = apply {
-        this.payment = payment
-    }
+    fun withPayment(payment: BookingRequest.Payment) =
+        apply {
+            this.payment = payment
+        }
 
-    fun build() = BookingRequest(
-        hotelId = hotelId,
-        roomId = roomId,
-        checkIn = checkIn,
-        checkOut = checkOut,
-        price = price,
-        currency = currency.currencyCode,
-        guest = guest,
-        payment = payment,
-    )
+    fun build() =
+        BookingRequest(
+            hotelId = hotelId,
+            roomId = roomId,
+            checkIn = checkIn,
+            checkOut = checkOut,
+            price = price,
+            currency = currency.currencyCode,
+            guest = guest,
+            payment = payment,
+        )
 
     companion object {
         @JvmStatic

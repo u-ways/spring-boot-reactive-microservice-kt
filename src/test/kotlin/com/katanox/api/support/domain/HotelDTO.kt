@@ -8,5 +8,5 @@ data class HotelDTO(
     val hotel: Hotels,
     val rooms: List<RoomsDTO>,
     val extraChargeFlat: List<ExtraChargesFlat>,
-    val extraChargePercentage: List<ExtraChargesPercentage>
+    val extraChargePercentage: List<ExtraChargesPercentage>,
 )

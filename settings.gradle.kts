@@ -47,28 +47,52 @@ dependencyResolutionManagement {
             library("kotest-assertions-core", "io.kotest", "kotest-assertions-core").versionRef(kotest)
             library("kotest-runner-junit5", "io.kotest", "kotest-runner-junit5").versionRef(kotest)
             library("kotlin-reflect", "org.jetbrains.kotlin", "kotlin-reflect").versionRef(kotlinVersion)
-            library("kotlinx-coroutines-reactor", "org.jetbrains.kotlinx", "kotlinx-coroutines-reactor").versionRef(kotlinxCoroutinesReactorVersion)
+            library(
+                "kotlinx-coroutines-reactor",
+                "org.jetbrains.kotlinx",
+                "kotlinx-coroutines-reactor",
+            ).versionRef(kotlinxCoroutinesReactorVersion)
             library("logback-classic", "ch.qos.logback", "logback-classic").versionRef(logbackVersion)
             library("logback-jackson", "ch.qos.logback.contrib", "logback-jackson").versionRef(logbackJsonVersion)
             library("logback-json", "ch.qos.logback.contrib", "logback-json-classic").versionRef(logbackJsonVersion)
-            library("micrometer-registry-prometheus", "io.micrometer", "micrometer-registry-prometheus").versionRef(micrometerRegistryPrometheusVersion)
+            library(
+                "micrometer-registry-prometheus",
+                "io.micrometer",
+                "micrometer-registry-prometheus",
+            ).versionRef(micrometerRegistryPrometheusVersion)
             library("mockk-core", "io.mockk", "mockk").versionRef(mockkVersion)
             library("postgresql", "org.postgresql", "postgresql").versionRef(postgresqlVersion)
             library("postgresql-r2dbc", "org.postgresql", "r2dbc-postgresql").versionRef(r2dbcPostgresqlVersion)
             library("reactor-core", "io.projectreactor", "reactor-core").versionRef(reactorVersion)
-            library("reactor-kotlin-extensions", "io.projectreactor.kotlin", "reactor-kotlin-extensions").versionRef(reactorKotlinExtensionsVersion)
+            library(
+                "reactor-kotlin-extensions",
+                "io.projectreactor.kotlin",
+                "reactor-kotlin-extensions",
+            ).versionRef(reactorKotlinExtensionsVersion)
             library("reactor-rabbitmq", "io.projectreactor.rabbitmq", "reactor-rabbitmq").versionRef(reactorRabbitMQVersion)
             library("reactor-test", "io.projectreactor", "reactor-test").versionRef(reactorVersion)
             library("rest-assured", "io.rest-assured", "rest-assured").versionRef(restAssured)
-            library("spring-boot-starter-actuator", "org.springframework.boot", "spring-boot-starter-actuator").versionRef(springBootVersion)
+            library(
+                "spring-boot-starter-actuator",
+                "org.springframework.boot",
+                "spring-boot-starter-actuator",
+            ).versionRef(springBootVersion)
             library("spring-boot-starter-amqp", "org.springframework.boot", "spring-boot-starter-amqp").versionRef(springBootVersion)
-            library("spring-boot-starter-data-r2dbc", "org.springframework.boot", "spring-boot-starter-data-r2dbc").versionRef(springBootVersion)
+            library(
+                "spring-boot-starter-data-r2dbc",
+                "org.springframework.boot",
+                "spring-boot-starter-data-r2dbc",
+            ).versionRef(springBootVersion)
             library("spring-boot-starter-jooq", "org.springframework.boot", "spring-boot-starter-jooq").versionRef(springBootVersion)
             library("spring-boot-starter-test", "org.springframework.boot", "spring-boot-starter-test").versionRef(springBootVersion)
             library("spring-boot-starter-webflux", "org.springframework.boot", "spring-boot-starter-webflux").versionRef(springBootVersion)
             library("spring-boot-testcontainers", "org.springframework.boot", "spring-boot-testcontainers").versionRef(springBootVersion)
             library("spring-rabbit-test", "org.springframework.amqp", "spring-rabbit-test").versionRef(springAmqpRabbitTestVersion)
-            library("spring-restdocs-webtestclient", "org.springframework.restdocs", "spring-restdocs-webtestclient").versionRef(springRestDocsWebTestClientVersion)
+            library(
+                "spring-restdocs-webtestclient",
+                "org.springframework.restdocs",
+                "spring-restdocs-webtestclient",
+            ).versionRef(springRestDocsWebTestClientVersion)
             library("testcontainers-junit", "org.testcontainers", "junit-jupiter").versionRef(testContainersVersion)
             library("testcontainers-postgresql", "org.testcontainers", "postgresql").versionRef(testContainersVersion)
             library("testcontainers-r2dbc", "org.testcontainers", "r2dbc").versionRef(testContainersVersion)

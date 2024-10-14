@@ -8,8 +8,9 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class Application {
     companion object {
-        internal val LOGGER: Logger = LoggerFactory
-            .getLogger(Application::class.java.`package`.name)
+        internal val LOGGER: Logger =
+            LoggerFactory
+                .getLogger(Application::class.java.`package`.name)
 
         @JvmStatic
         fun main(args: Array<String>) {

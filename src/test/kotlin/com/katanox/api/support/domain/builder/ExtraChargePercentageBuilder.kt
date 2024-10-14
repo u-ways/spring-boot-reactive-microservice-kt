@@ -12,21 +12,24 @@ class ExtraChargePercentageBuilder private constructor() {
         fun extraChargePercentage() = ExtraChargePercentageBuilder()
     }
 
-    private var extraChargePercentage = ExtraChargesPercentage(
-        id = Random.nextLong(0, 10000),
-        hotelId = Random.nextLong(0, 10000),
-        description = Random.alphaNumeric("extra-charge-percentage-description"),
-        appliedOn = AppliedOn.entries.toTypedArray().random(),
-        percentage = BigDecimal.valueOf(Random.nextDouble(0.0, 100.0)),
-    )
+    private var extraChargePercentage =
+        ExtraChargesPercentage(
+            id = Random.nextLong(0, 10000),
+            hotelId = Random.nextLong(0, 10000),
+            description = Random.alphaNumeric("extra-charge-percentage-description"),
+            appliedOn = AppliedOn.entries.toTypedArray().random(),
+            percentage = BigDecimal.valueOf(Random.nextDouble(0.0, 100.0)),
+        )
 
-    fun withAppliedOn(appliedOn: AppliedOn): ExtraChargePercentageBuilder = this.apply {
-        this.extraChargePercentage = extraChargePercentage.copy(appliedOn = appliedOn)
-    }
+    fun withAppliedOn(appliedOn: AppliedOn): ExtraChargePercentageBuilder =
+        this.apply {
+            this.extraChargePercentage = extraChargePercentage.copy(appliedOn = appliedOn)
+        }
 
-    fun withPercentage(percentage: BigDecimal): ExtraChargePercentageBuilder = this.apply {
-        this.extraChargePercentage = extraChargePercentage.copy(percentage = percentage)
-    }
+    fun withPercentage(percentage: BigDecimal): ExtraChargePercentageBuilder =
+        this.apply {
+            this.extraChargePercentage = extraChargePercentage.copy(percentage = percentage)
+        }
 
     fun build(hotelId: Long): ExtraChargesPercentage = extraChargePercentage.copy(hotelId = hotelId)
 }

@@ -16,6 +16,5 @@ import org.springframework.context.annotation.Primary
 class JooqConfig {
     @Bean
     @Primary
-    fun jooq(connectionFactory: ConnectionFactory): DSLContext =
-        DSL.using(connectionFactory)
+    fun jooq(connectionFactory: ConnectionFactory): DSLContext = DSL.using(connectionFactory)
 }

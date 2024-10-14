@@ -9,12 +9,10 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.with
 
 class ApplicationIT {
-
     @Nested
-    inner class Smoke: IntegrationTest {
+    inner class Smoke : IntegrationTest {
         @Test
-        fun `application should start with no exceptions`() =
-            shouldNotThrowAny { main(emptyArray()) }
+        fun `application should start with no exceptions`() = shouldNotThrowAny { main(emptyArray()) }
     }
 
     companion object {

@@ -11,19 +11,22 @@ class PricesBuilder {
         fun price() = PricesBuilder()
     }
 
-    fun withDate(date: LocalDate): PricesBuilder = this.apply {
-        this.price = price.copy(date = date)
-    }
+    fun withDate(date: LocalDate): PricesBuilder =
+        this.apply {
+            this.price = price.copy(date = date)
+        }
 
-    fun withPrice(price: BigDecimal): PricesBuilder = this.apply {
-        this.price = this.price.copy(price = price)
-    }
+    fun withPrice(price: BigDecimal): PricesBuilder =
+        this.apply {
+            this.price = this.price.copy(price = price)
+        }
 
-    private var price = Prices(
-        roomId = Random.nextLong(),
-        date = LocalDate.now(),
-        price = BigDecimal.valueOf(Random.nextDouble(0.0, 100.0)),
-    )
+    private var price =
+        Prices(
+            roomId = Random.nextLong(),
+            date = LocalDate.now(),
+            price = BigDecimal.valueOf(Random.nextDouble(0.0, 100.0)),
+        )
 
     fun build(roomId: Long): Prices = price.copy(roomId = roomId)
 }

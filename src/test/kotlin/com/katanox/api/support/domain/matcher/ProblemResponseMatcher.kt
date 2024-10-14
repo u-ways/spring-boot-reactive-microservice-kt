@@ -2,11 +2,11 @@ package com.katanox.api.support.domain.matcher
 
 import com.katanox.api.config.TraceabilityConfig.Companion.CORRELATION_HTTP_HEADER_KEY
 import io.restassured.path.json.JsonPath
+import org.hamcrest.Description
+import org.hamcrest.TypeSafeMatcher
 import java.time.OffsetDateTime
 import java.util.UUID
 import kotlin.properties.Delegates
-import org.hamcrest.Description
-import org.hamcrest.TypeSafeMatcher
 
 class ProblemResponseMatcher private constructor() : TypeSafeMatcher<String>() {
     private lateinit var type: String
@@ -27,45 +27,52 @@ class ProblemResponseMatcher private constructor() : TypeSafeMatcher<String>() {
                 "$CORRELATION_HTTP_HEADER_KEY": "$correlationId",
                 "${ProblemResponseMatcher::timestamp.name}": ${timestamp?.toDouble() ?: "IGNORED"},
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
     }
 
-    override fun matchesSafely(item: String): Boolean = JsonPath
-        .from(item)
-        ?.run {
-            type == getString(ProblemResponseMatcher::type.name) &&
-                title == getString(ProblemResponseMatcher::title.name) &&
-                status == getInt(ProblemResponseMatcher::status.name) &&
-                detail == getString(ProblemResponseMatcher::detail.name) &&
-                correlationId == getString(CORRELATION_HTTP_HEADER_KEY) &&
-                timestamp?.toDouble()?.equals(getDouble(ProblemResponseMatcher::timestamp.name)) ?: true
+    override fun matchesSafely(item: String): Boolean =
+        JsonPath
+            .from(item)
+            ?.run {
+                type == getString(ProblemResponseMatcher::type.name) &&
+                    title == getString(ProblemResponseMatcher::title.name) &&
+                    status == getInt(ProblemResponseMatcher::status.name) &&
+                    detail == getString(ProblemResponseMatcher::detail.name) &&
+                    correlationId == getString(CORRELATION_HTTP_HEADER_KEY) &&
+                    timestamp?.toDouble()?.equals(getDouble(ProblemResponseMatcher::timestamp.name)) ?: true
+            }
+            ?: false
+
+    fun withType(type: String) =
+        apply {
+            this.type = type
         }
-        ?: false
 
-    fun withType(type: String) = apply {
-        this.type = type
-    }
+    fun withTitle(title: String) =
+        apply {
+            this.title = title
+        }
 
-    fun withTitle(title: String) = apply {
-        this.title = title
-    }
+    fun withStatus(status: Int) =
+        apply {
+            this.status = status
+        }
 
-    fun withStatus(status: Int) = apply {
-        this.status = status
-    }
+    fun withDetail(detail: String) =
+        apply {
+            this.detail = detail
+        }
 
-    fun withDetail(detail: String) = apply {
-        this.detail = detail
-    }
+    fun withCorrelationId(correlationId: UUID) =
+        apply {
+            this.correlationId = correlationId.toString()
+        }
 
-    fun withCorrelationId(correlationId: UUID) = apply {
-        this.correlationId = correlationId.toString()
-    }
-
-    fun withTimestamp(timestamp: OffsetDateTime) = apply {
-        this.timestamp = timestamp
-    }
+    fun withTimestamp(timestamp: OffsetDateTime) =
+        apply {
+            this.timestamp = timestamp
+        }
 
     /**
      * Convert the OffsetDateTime to a double representation.
@@ -81,8 +88,7 @@ class ProblemResponseMatcher private constructor() : TypeSafeMatcher<String>() {
 
     companion object {
         @JvmStatic
-        internal fun problemDetailResponse(
-            block: ProblemResponseMatcher.() -> Unit,
-        ): ProblemResponseMatcher = ProblemResponseMatcher().apply(block)
+        internal fun problemDetailResponse(block: ProblemResponseMatcher.() -> Unit): ProblemResponseMatcher =
+            ProblemResponseMatcher().apply(block)
     }
 }

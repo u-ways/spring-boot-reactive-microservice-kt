@@ -21,7 +21,7 @@ import org.springframework.web.reactive.function.server.router
  */
 @EnableWebFlux
 @Configuration
-class WebFluxConfig: WebFluxConfigurer {
+class WebFluxConfig : WebFluxConfigurer {
     /**
      * Spring WebFlux includes `WebFlux.fn`, a lightweight functional programming model in which functions are
      * used to route and handle requests and contracts are designed for immutability. It is an alternative to
@@ -33,10 +33,11 @@ class WebFluxConfig: WebFluxConfigurer {
     fun routes(
         @Autowired availabilityHandler: AvailabilityHandler,
         @Autowired bookingHandler: BookingHandler,
-    ): RouterFunction<ServerResponse> = router {
-        (contentType(MediaType.APPLICATION_JSON) and accept(MediaType.APPLICATION_JSON)).nest {
-            GET(AvailabilityHandler.PATH, availabilityHandler::handle)
-            POST(BookingHandler.PATH, bookingHandler::handle)
+    ): RouterFunction<ServerResponse> =
+        router {
+            (contentType(MediaType.APPLICATION_JSON) and accept(MediaType.APPLICATION_JSON)).nest {
+                GET(AvailabilityHandler.PATH, availabilityHandler::handle)
+                POST(BookingHandler.PATH, bookingHandler::handle)
+            }
         }
-    }
 }

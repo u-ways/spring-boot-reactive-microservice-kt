@@ -12,25 +12,30 @@ class ProblemDetailBuilder private constructor() {
     private lateinit var problem: Problem
     private lateinit var request: ServerRequest
 
-    internal fun withProblem(problem: Problem): ProblemDetailBuilder = apply {
-        this.problem = problem
-    }
-
-    internal fun withRequest(request: ServerRequest): ProblemDetailBuilder = apply {
-        this.request = request
-    }
-
-    internal fun build(): ProblemDetail {
-        val status = when (problem) {
-            is Problem.NotFound -> HttpStatus.NOT_FOUND
-            is Problem.NotAvailable -> HttpStatus.CONFLICT
-            is Problem.InvalidInput -> HttpStatus.BAD_REQUEST
-            is Problem.BadGateway -> HttpStatus.BAD_GATEWAY
+    internal fun withProblem(problem: Problem): ProblemDetailBuilder =
+        apply {
+            this.problem = problem
         }
 
-        val correlationId = (request.exchange()
-            .getAttribute(TraceabilityConfig.CORRELATION_CONTEXT_KEY)
-            ?: TraceabilityConfig.CORRELATION_ID_PROVIDER.invoke())
+    internal fun withRequest(request: ServerRequest): ProblemDetailBuilder =
+        apply {
+            this.request = request
+        }
+
+    internal fun build(): ProblemDetail {
+        val status =
+            when (problem) {
+                is Problem.NotFound -> HttpStatus.NOT_FOUND
+                is Problem.NotAvailable -> HttpStatus.CONFLICT
+                is Problem.InvalidInput -> HttpStatus.BAD_REQUEST
+                is Problem.BadGateway -> HttpStatus.BAD_GATEWAY
+            }
+
+        val correlationId = (
+            request.exchange()
+                .getAttribute(TraceabilityConfig.CORRELATION_CONTEXT_KEY)
+                ?: TraceabilityConfig.CORRELATION_ID_PROVIDER.invoke()
+        )
 
         return ProblemDetail
             .forStatus(status)
@@ -38,10 +43,11 @@ class ProblemDetailBuilder private constructor() {
                 type = request.uri()
                 title = status.reasonPhrase
                 detail = problem.message
-                properties = mapOf(
-                    TraceabilityConfig.CORRELATION_HTTP_HEADER_KEY to correlationId,
-                    Problem::timestamp.name to problem.timestamp,
-                )
+                properties =
+                    mapOf(
+                        TraceabilityConfig.CORRELATION_HTTP_HEADER_KEY to correlationId,
+                        Problem::timestamp.name to problem.timestamp,
+                    )
             }
     }
 

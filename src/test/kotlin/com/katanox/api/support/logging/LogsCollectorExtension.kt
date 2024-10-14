@@ -19,19 +19,21 @@ class LogsCollectorExtension : BeforeTestExecutionCallback, AfterTestExecutionCa
     private var collectors: List<LogsCollector> = emptyList()
 
     @Throws(Exception::class)
-    override fun postProcessTestInstance(testInstance: Any, context: ExtensionContext) {
-        collectors = testInstance::class.memberProperties.asSequence()
-            .filter { it.returnType == LogsCollector::class.createType() }
-            .onEach { it.isAccessible = true }
-            .map { it.getter.call(testInstance) as LogsCollector }
-            .toList()
+    override fun postProcessTestInstance(
+        testInstance: Any,
+        context: ExtensionContext,
+    ) {
+        collectors =
+            testInstance::class.memberProperties.asSequence()
+                .filter { it.returnType == LogsCollector::class.createType() }
+                .onEach { it.isAccessible = true }
+                .map { it.getter.call(testInstance) as LogsCollector }
+                .toList()
     }
 
     @Throws(Exception::class)
-    override fun beforeTestExecution(context: ExtensionContext) =
-        collectors.forEach(LogsCollector::start)
+    override fun beforeTestExecution(context: ExtensionContext) = collectors.forEach(LogsCollector::start)
 
     @Throws(Exception::class)
-    override fun afterTestExecution(context: ExtensionContext) =
-        collectors.forEach(LogsCollector::stop)
+    override fun afterTestExecution(context: ExtensionContext) = collectors.forEach(LogsCollector::stop)
 }

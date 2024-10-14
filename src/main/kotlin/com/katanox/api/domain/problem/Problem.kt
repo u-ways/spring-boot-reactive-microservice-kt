@@ -9,7 +9,10 @@ internal sealed class Problem(
     val timestamp: OffsetDateTime = OffsetDateTime.now()
 
     internal class NotFound(message: String, cause: Throwable? = null) : Problem(message, cause)
+
     internal class NotAvailable(message: String, cause: Throwable? = null) : Problem(message, cause)
+
     internal class InvalidInput(message: String, cause: Throwable? = null) : Problem(message, cause)
+
     internal class BadGateway(message: String, cause: Throwable? = null) : Problem(message, cause)
 }
