@@ -216,3 +216,11 @@ private infix fun String.from(properties: Properties): String =
     } else {
         error("Property '$this' not found.")
     }
+
+ktlint {
+    filter {
+        exclude { entry ->
+            entry.file.toString().contains("generated")
+        }
+    }
+}
