@@ -1,7 +1,7 @@
 # Spring Boot Reactive Microservice (Kt)
 
 [![CICD](https://github.com/u-ways/spring-boot-reactive-microservice-kt/actions/workflows/CICD.yml/badge.svg)](https://github.com/u-ways/spring-boot-reactive-microservice-kt/actions/workflows/CICD.yml)
-[![Code Climate](https://codeclimate.com/github/u-ways/spring-boot-reactive-microservice-kt.png)](https://codeclimate.com/github/u-ways/spring-boot-reactive-microservice-kt)
+[![Code Climate](https://badgen.net/badge/CodeClimate/A/green)](https://codeclimate.com/github/u-ways/spring-boot-reactive-microservice-kt)
 [![GitHub License](https://badgen.net/badge/license/BSD-3-Clause/blue)](https://github.com/u-ways/spring-boot-reactive-microservice-kt/blob/master/LICENSE)
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
